@@ -1,7 +1,30 @@
-def on_a_pressed():
-    game.show_long_text("游戏开始", DialogLayout.TOP)
+def on_up_pressed():
     music.stop_all_sounds()
-controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+    music.play(music.string_playable("C - - - - - - - ", 262),
+        music.PlaybackMode.UNTIL_DONE)
+    music.stop_all_sounds()
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def on_down_pressed():
+    music.stop_all_sounds()
+    music.play(music.string_playable("D - - - - - - - ", 294),
+        music.PlaybackMode.UNTIL_DONE)
+    music.stop_all_sounds()
+controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
+
+def on_right_pressed():
+    music.stop_all_sounds()
+    music.play(music.string_playable("F - - - - - - - ", 349),
+        music.PlaybackMode.UNTIL_DONE)
+    music.stop_all_sounds()
+controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
+
+def on_left_pressed():
+    music.stop_all_sounds()
+    music.play(music.string_playable("E - - - - - - - ", 330),
+        music.PlaybackMode.UNTIL_DONE)
+    music.stop_all_sounds()
+controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 scene.set_background_image(img("""
     eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
@@ -126,29 +149,7 @@ scene.set_background_image(img("""
         222222eeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbeee222222
 """))
 effects.confetti.start_screen_effect()
-mySprite2 = sprites.create(img("""
-        . . . . . . . . . . . . . . . . 
-            . . . . . . f f f f f f . . . . 
-            . . . . . f f d d f f f f . . . 
-            . . . . . c 1 f f f f f c . . . 
-            . . . . 1 c f f f f f f c 1 . . 
-            . . . a 1 c 1 f f f f f c 1 a . 
-            . . . f 1 c f f f f f f c 1 f . 
-            . . . f 1 c 1 f f f f f c a f . 
-            . . . f 1 c f b b b b f c 1 f . 
-            . . . a 1 1 b c c c c b 1 1 a . 
-            . . . a a b c c c c c c b a a . 
-            . . . f a d d d d d d d d a f . 
-            . . . f a d f f f f f f d a f . 
-            . . . . 1 d d f f f f d d 1 f . 
-            . . . . f 1 d f f f f d 1 f . . 
-            . . . . . a f f f f f f a . . .
-    """),
-    SpriteKind.player)
-mySprite2.set_position(92, 91)
 carnival.add_label_to("欢迎来到乐动青春", carnival.Areas.MID, 1)
-music.play(music.string_playable("C D E F G A B C5 ", 120),
-    music.PlaybackMode.IN_BACKGROUND)
 mySprite = sprites.create(img("""
         . . . . . . . . . . . . . . . . 
             . . . . . f f f f f f . . . . . 
@@ -175,58 +176,76 @@ animation.run_movement_animation(mySprite,
     False)
 animation.run_image_animation(mySprite,
     [img("""
-            . . . . . . . . . . . . 
-                . . . f f f f f f . . . 
-                . f f f e e e e e f . . 
-                f f f e e e e e e e f . 
-                f f f f e e e e e e e f 
-                f f f f f e e e 4 e e f 
-                f f f f e e e 4 4 e e f 
-                f f f f 4 4 4 4 4 e f f 
-                f f 4 e 4 f f 4 4 e f . 
-                f f 4 d 4 d d d d f . . 
-                . f f f 4 d d b b f . . 
-                . 4 d d e 4 4 4 e f . . 
-                . e d d e 1 1 1 1 f . . 
-                . f e e f 6 6 6 6 f f . 
-                . f f f f f f f f f f . 
-                . . f f . . . f f f . .
+            . . . . . . f f f f f f . . . . 
+                . . . . f f e e e e f 2 f . . . 
+                . . . f f e e e e f 2 2 2 f . . 
+                . . . f e e e f f e e e e f . . 
+                . . . f f f f e e 2 2 2 2 e f . 
+                . . . f e 2 2 2 f f f f e 2 f . 
+                . . f f f f f f f e e e f f f . 
+                . . f f e 4 4 e b f 4 4 e e f . 
+                . . f e e 4 d 4 1 f d d e f . . 
+                . . . f e e e 4 d d d d f . . . 
+                . . . . f f e e 4 4 4 e f . . . 
+                . . . . . 4 d d e 2 2 2 f . . . 
+                . . . . . e d d e 2 2 2 f . . . 
+                . . . . . f e e f 4 5 5 f . . . 
+                . . . . . . f f f f f f . . . . 
+                . . . . . . . f f f . . . . . .
         """),
         img("""
-            . . . . . . . . . . . . 
-                . . . f f f f f f . . . 
-                . f f f e e e e e f . . 
-                f f f e e e e e e e f . 
-                f f f f e e e e e e e f 
-                f f f f f e e e 4 e e f 
-                f f f f e e e 4 4 e e f 
-                f f f f 4 4 4 4 4 e f f 
-                f f 4 e 4 f f 4 4 e f . 
-                . f 4 d 4 d d d d f . . 
-                . f f f e e d b b f . . 
-                . . f 4 d d e 4 e f . . 
-                . . f e d d e 1 1 f . . 
-                . f f f e e f 6 6 f f . 
-                . f f f f f f f f f f . 
-                . . f f . . . f f f . .
+            . . . . . . . . . . . . . . . . 
+                . . . . . . f f f f f f . . . . 
+                . . . . f f e e e e f 2 f . . . 
+                . . . f f e e e e f 2 2 2 f . . 
+                . . . f e e e f f e e e e f . . 
+                . . . f f f f e e 2 2 2 2 e f . 
+                . . . f e 2 2 2 f f f f e 2 f . 
+                . . f f f f f f f e e e f f f . 
+                . . f f e 4 4 e b f 4 4 e e f . 
+                . . f e e 4 d 4 1 f d d e f . . 
+                . . . f e e e e e d d d f . . . 
+                . . . . . f 4 d d e 4 e f . . . 
+                . . . . . f e d d e 2 2 f . . . 
+                . . . . f f f e e f 5 5 f f . . 
+                . . . . f f f f f f f f f f . . 
+                . . . . . f f . . . f f f . . .
         """),
         img("""
-            . . . . f f f f f . . . 
-                . . f f e e e e e f . . 
-                . f f e e e e e e e f . 
-                f f f f e e e e e e e f 
-                f f f f f e e e 4 e e f 
-                f f f f e e e 4 4 e e f 
-                f f f f 4 4 4 4 4 e f f 
-                f f 4 e 4 f f 4 4 e f f 
-                . f 4 d 4 d d d d f f . 
-                . f f f 4 d d b b f . . 
-                . . f e e 4 4 4 e f . . 
-                . . 4 d d e 1 1 1 f . . 
-                . . e d d e 1 1 1 f . . 
-                . . f e e f 6 6 6 f . . 
-                . . . f f f f f f . . . 
-                . . . . f f f . . . . .
+            . . . . . . f f f f f f . . . . 
+                . . . . f f e e e e f 2 f . . . 
+                . . . f f e e e e f 2 2 2 f . . 
+                . . . f e e e f f e e e e f . . 
+                . . . f f f f e e 2 2 2 2 e f . 
+                . . . f e 2 2 2 f f f f e 2 f . 
+                . . f f f f f f f e e e f f f . 
+                . . f f e 4 4 e b f 4 4 e e f . 
+                . . f e e 4 d 4 1 f d d e f . . 
+                . . . f e e e 4 d d d d f . . . 
+                . . . . f f e e 4 4 4 e f . . . 
+                . . . . . 4 d d e 2 2 2 f . . . 
+                . . . . . e d d e 2 2 2 f . . . 
+                . . . . . f e e f 4 5 5 f . . . 
+                . . . . . . f f f f f f . . . . 
+                . . . . . . . f f f . . . . . .
+        """),
+        img("""
+            . . . . . . . . . . . . . . . . 
+                . . . . . . f f f f f f . . . . 
+                . . . . f f e e e e f 2 f . . . 
+                . . . f f e e e e f 2 2 2 f . . 
+                . . . f e e e f f e e e e f . . 
+                . . . f f f f e e 2 2 2 2 e f . 
+                . . . f e 2 2 2 f f f f e 2 f . 
+                . . f f f f f f f e e e f f f . 
+                . . f f e 4 4 e b f 4 4 e e f . 
+                . . f e e 4 d 4 1 f d d e f . . 
+                . . . f e e e 4 d d d d f . . . 
+                . . . . 4 d d e 4 4 4 e f . . . 
+                . . . . e d d e 2 2 2 2 f . . . 
+                . . . . f e e f 4 4 5 5 f f . . 
+                . . . . f f f f f f f f f f . . 
+                . . . . . f f . . . f f f . . .
         """)],
     200,
     True)

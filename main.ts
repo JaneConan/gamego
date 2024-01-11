@@ -1,40 +1,23 @@
-pins.P10.onEvent(PinEvent.PulseLow, function () {
-    game.showLongText("Mi", DialogLayout.Top)
-    music.play(music.stringPlayable("E - - - - - - - ", 330), music.PlaybackMode.UntilDone)
-})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    pins.P1.setPull(PinPullMode.PullUp)
-    textSprite.setText("Do")
+    music.stopAllSounds()
+    music.play(music.stringPlayable("C - - - - - - - ", 262), music.PlaybackMode.UntilDone)
+    music.stopAllSounds()
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    pins.P2.setPull(PinPullMode.PullUp)
-    textSprite.setText("Re")
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    game.showLongText("游戏开始", DialogLayout.Top)
+    music.stopAllSounds()
+    music.play(music.stringPlayable("D - - - - - - - ", 294), music.PlaybackMode.UntilDone)
     music.stopAllSounds()
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    pins.P16.setPull(PinPullMode.PullUp)
-    textSprite.setText("Fa")
-})
-pins.P2.onEvent(PinEvent.PulseLow, function () {
-    game.showLongText("Re", DialogLayout.Top)
-    music.play(music.stringPlayable("D - - - - - - - ", 294), music.PlaybackMode.UntilDone)
-})
-pins.P16.onEvent(PinEvent.PulseLow, function () {
-    game.showLongText("Fa", DialogLayout.Top)
+    music.stopAllSounds()
     music.play(music.stringPlayable("F - - - - - - - ", 349), music.PlaybackMode.UntilDone)
-})
-pins.P1.onEvent(PinEvent.PulseLow, function () {
-    game.showLongText("Do", DialogLayout.Top)
-    music.play(music.stringPlayable("C - - - - - - - ", 262), music.PlaybackMode.UntilDone)
+    music.stopAllSounds()
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    pins.P10.setPull(PinPullMode.PullUp)
-    textSprite.setText("Mi")
+    music.stopAllSounds()
+    music.play(music.stringPlayable("E - - - - - - - ", 330), music.PlaybackMode.UntilDone)
+    music.stopAllSounds()
 })
-let textSprite: TextSprite = null
 scene.setBackgroundImage(img`
     eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
     222eeeee22222222222222222222222222222eee2222eeee2222ee222222222eeeee22222222222222222222222222222eee2222eeeee222ee22222eeeee22222222222222222222222222222eee2222
@@ -158,28 +141,7 @@ scene.setBackgroundImage(img`
     222222eeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbeee222222
     `)
 effects.confetti.startScreenEffect()
-textSprite = textsprite.create("")
-let mySprite2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . f f f f f f . . . . 
-    . . . . . f f d d f f f f . . . 
-    . . . . . c 1 f f f f f c . . . 
-    . . . . 1 c f f f f f f c 1 . . 
-    . . . a 1 c 1 f f f f f c 1 a . 
-    . . . f 1 c f f f f f f c 1 f . 
-    . . . f 1 c 1 f f f f f c a f . 
-    . . . f 1 c f b b b b f c 1 f . 
-    . . . a 1 1 b c c c c b 1 1 a . 
-    . . . a a b c c c c c c b a a . 
-    . . . f a d d d d d d d d a f . 
-    . . . f a d f f f f f f d a f . 
-    . . . . 1 d d f f f f d d 1 f . 
-    . . . . f 1 d f f f f d 1 f . . 
-    . . . . . a f f f f f f a . . . 
-    `, SpriteKind.Player)
 carnival.addLabelTo("欢迎来到乐动青春", carnival.Areas.Mid, 1)
-mySprite2.setPosition(92, 91)
-music.play(music.stringPlayable("C D E F G A B C5 ", 120), music.PlaybackMode.InBackground)
 let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . f f f f f f . . . . . 
@@ -198,7 +160,34 @@ let mySprite = sprites.create(img`
     . . . f f f f f f f f f f . . . 
     . . . . f f . . . f f f . . . . 
     `, SpriteKind.Player)
+let piano = sprites.create(img`
+    ..cccc.........
+    .cdddbc........
+    ffdddbccccccc..
+    1bdddbcbdddddc.
+    ffdddbcdddddbbc
+    1bdddbcbbbbbbbc
+    ffdddbccccccbbc
+    1bdddbcddddbccc
+    ffdddbcdddddbc.
+    1bdddbcdddddbc.
+    ffdddbcdddddbc.
+    1bdddbcdddddbc.
+    ffdddbcdddddbc.
+    1bdddbcdddddbc.
+    ffdddbcdddddbc.
+    1bddbbcdddddbc.
+    ffbbbbcccccccc.
+    1bbbbbcbdddddc.
+    ffbbbbcdddddbbc
+    1bbbbbcbbbbbbbc
+    ffbbbbcbbbbbbbc
+    1bbbbbcbbbbbbbc
+    .cccccccccccccc
+    .cbbc.....cbbc.
+    `, SpriteKind.Player)
 mySprite.setPosition(21, 91)
+piano.setPosition(96, 91)
 animation.runMovementAnimation(
 mySprite,
 animation.animationPresets(animation.easeRight),
@@ -208,87 +197,75 @@ false
 animation.runImageAnimation(
 mySprite,
 [img`
-    . . . . . . . . . . . . 
-    . . . f f f f f f . . . 
-    . f f f e e e e e f . . 
-    f f f e e e e e e e f . 
-    f f f f e e e e e e e f 
-    f f f f f e e e 4 e e f 
-    f f f f e e e 4 4 e e f 
-    f f f f 4 4 4 4 4 e f f 
-    f f 4 e 4 f f 4 4 e f . 
-    f f 4 d 4 d d d d f . . 
-    . f f f 4 d d b b f . . 
-    . 4 d d e 4 4 4 e f . . 
-    . e d d e 1 1 1 1 f . . 
-    . f e e f 6 6 6 6 f f . 
-    . f f f f f f f f f f . 
-    . . f f . . . f f f . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . f f e e e e f 2 f . . . 
+    . . . f f e e e e f 2 2 2 f . . 
+    . . . f e e e f f e e e e f . . 
+    . . . f f f f e e 2 2 2 2 e f . 
+    . . . f e 2 2 2 f f f f e 2 f . 
+    . . f f f f f f f e e e f f f . 
+    . . f f e 4 4 e b f 4 4 e e f . 
+    . . f e e 4 d 4 1 f d d e f . . 
+    . . . f e e e 4 d d d d f . . . 
+    . . . . f f e e 4 4 4 e f . . . 
+    . . . . . 4 d d e 2 2 2 f . . . 
+    . . . . . e d d e 2 2 2 f . . . 
+    . . . . . f e e f 4 5 5 f . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . . f f f . . . . . . 
     `,img`
-    . . . . . . . . . . . . 
-    . . . f f f f f f . . . 
-    . f f f e e e e e f . . 
-    f f f e e e e e e e f . 
-    f f f f e e e e e e e f 
-    f f f f f e e e 4 e e f 
-    f f f f e e e 4 4 e e f 
-    f f f f 4 4 4 4 4 e f f 
-    f f 4 e 4 f f 4 4 e f . 
-    . f 4 d 4 d d d d f . . 
-    . f f f e e d b b f . . 
-    . . f 4 d d e 4 e f . . 
-    . . f e d d e 1 1 f . . 
-    . f f f e e f 6 6 f f . 
-    . f f f f f f f f f f . 
-    . . f f . . . f f f . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . f f e e e e f 2 f . . . 
+    . . . f f e e e e f 2 2 2 f . . 
+    . . . f e e e f f e e e e f . . 
+    . . . f f f f e e 2 2 2 2 e f . 
+    . . . f e 2 2 2 f f f f e 2 f . 
+    . . f f f f f f f e e e f f f . 
+    . . f f e 4 4 e b f 4 4 e e f . 
+    . . f e e 4 d 4 1 f d d e f . . 
+    . . . f e e e e e d d d f . . . 
+    . . . . . f 4 d d e 4 e f . . . 
+    . . . . . f e d d e 2 2 f . . . 
+    . . . . f f f e e f 5 5 f f . . 
+    . . . . f f f f f f f f f f . . 
+    . . . . . f f . . . f f f . . . 
     `,img`
-    . . . . f f f f f . . . 
-    . . f f e e e e e f . . 
-    . f f e e e e e e e f . 
-    f f f f e e e e e e e f 
-    f f f f f e e e 4 e e f 
-    f f f f e e e 4 4 e e f 
-    f f f f 4 4 4 4 4 e f f 
-    f f 4 e 4 f f 4 4 e f f 
-    . f 4 d 4 d d d d f f . 
-    . f f f 4 d d b b f . . 
-    . . f e e 4 4 4 e f . . 
-    . . 4 d d e 1 1 1 f . . 
-    . . e d d e 1 1 1 f . . 
-    . . f e e f 6 6 6 f . . 
-    . . . f f f f f f . . . 
-    . . . . f f f . . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . f f e e e e f 2 f . . . 
+    . . . f f e e e e f 2 2 2 f . . 
+    . . . f e e e f f e e e e f . . 
+    . . . f f f f e e 2 2 2 2 e f . 
+    . . . f e 2 2 2 f f f f e 2 f . 
+    . . f f f f f f f e e e f f f . 
+    . . f f e 4 4 e b f 4 4 e e f . 
+    . . f e e 4 d 4 1 f d d e f . . 
+    . . . f e e e 4 d d d d f . . . 
+    . . . . f f e e 4 4 4 e f . . . 
+    . . . . . 4 d d e 2 2 2 f . . . 
+    . . . . . e d d e 2 2 2 f . . . 
+    . . . . . f e e f 4 5 5 f . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . . . . f f f . . . . . . 
+    `,img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . f f f f f f . . . . 
+    . . . . f f e e e e f 2 f . . . 
+    . . . f f e e e e f 2 2 2 f . . 
+    . . . f e e e f f e e e e f . . 
+    . . . f f f f e e 2 2 2 2 e f . 
+    . . . f e 2 2 2 f f f f e 2 f . 
+    . . f f f f f f f e e e f f f . 
+    . . f f e 4 4 e b f 4 4 e e f . 
+    . . f e e 4 d 4 1 f d d e f . . 
+    . . . f e e e 4 d d d d f . . . 
+    . . . . 4 d d e 4 4 4 e f . . . 
+    . . . . e d d e 2 2 2 2 f . . . 
+    . . . . f e e f 4 4 5 5 f f . . 
+    . . . . f f f f f f f f f f . . 
+    . . . . . f f . . . f f f . . . 
     `],
-200,
+500,
 true
 )
 mySprite.x = -18
-carnival.addLabelTo("按下A开始", carnival.Areas.Bottom, 1)
-forever(function () {
-    while (pins.P1.analogRead() == 1023) {
-        music.stopAllSounds()
-        music.play(music.stringPlayable("C - - - - - - - ", 262), music.PlaybackMode.UntilDone)
-        pins.P1.setPull(PinPullMode.PullNone)
-    }
-})
-forever(function () {
-    while (pins.P10.analogRead() == 1023) {
-        music.stopAllSounds()
-        music.play(music.stringPlayable("E - - - - - - - ", 330), music.PlaybackMode.UntilDone)
-        pins.P10.setPull(PinPullMode.PullNone)
-    }
-})
-forever(function () {
-    while (pins.P2.analogRead() == 1023) {
-        music.stopAllSounds()
-        music.play(music.stringPlayable("D - - - - - - - ", 294), music.PlaybackMode.UntilDone)
-        pins.P2.setPull(PinPullMode.PullNone)
-    }
-})
-forever(function () {
-    while (pins.P16.analogRead() == 1023) {
-        music.stopAllSounds()
-        music.play(music.stringPlayable("F - - - - - - - ", 349), music.PlaybackMode.UntilDone)
-        pins.P16.setPull(PinPullMode.PullNone)
-    }
-})
